@@ -15,7 +15,9 @@ export const useComics = () => {
     const response = await dispacth(GetListComicsAction());
 
     if(response?.type === GET_LIST_COMICS_FULFILLED) {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000)
     }
 
     if(response?.type === GET_LIST_COMICS_REJECTED) {

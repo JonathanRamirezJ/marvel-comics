@@ -1,75 +1,93 @@
 import { useEffect, useMemo, useState } from "react";
-import { useComics } from "../hooks/useComics";
-import { ThemeProvider } from "styled-components";
-import { theme } from "../contexts/theme/theme";
-import Loader from "../components/Loader";
-import { ContentPreview, Footer, MainContent } from "./App.styled";
 import { useSelector } from "react-redux";
-import { GetListComicsSelector } from "../Redux/GetListComics/GetListComics.slice";
-import { ComicsData } from "../models/Comics";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { ThemeProvider } from "styled-components";
 
-import MarvelIcon from "../assets/Marvel.svg";
-import { ImageDefault, ImageNotAvailable } from "../constants/imageDefault";
-import { Column, Container, Row } from "../components/Grid";
+// Own redux
+import { GetListComicsSelector } from "../Redux/GetListComics/GetListComics.slice";
+
+// Own hooks
+import { useComics } from "../hooks/useComics";
+
+// Own contexts
+import { theme } from "../contexts/theme/theme";
+
+// Own models
+import { ComicsData } from "../models/Comics";
 import { JustifyContent } from "../models/Column";
-import { Carousel } from "react-responsive-carousel";
+
+// Own constants
+import { ImageDefault, ImageNotAvailable } from "../constants/imageDefault";
+
+// Own components
+import Loader from "../components/Loader";
+import { Column, Container, Row } from "../components/Grid";
+
+// Own styles
+import { ContentPreview, Footer } from "./App.styled";
+
+// Own assets
+import Jumbotron from "../components/Jumbotron";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const ComicsSelector = useSelector(GetListComicsSelector);
   const { getListComicsAll } = useComics();
-  
+
   const ComicsData = useMemo(
     () => ComicsSelector?.data?.results,
-    [ComicsSelector] 
+    [ComicsSelector]
   );
 
   useEffect(() => {
     getListComicsAll(setIsLoading);
-  },[]);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
-      <Container>
-        { isLoading  ?(
-          <Loader/>
-        ): (
+      <>
+        {isLoading ? (
+          <Loader />
+        ) : (
           <>
-            <Row as={MainContent}>
-              <Column span={12} justifyContent={JustifyContent.center}>
-                <img src={MarvelIcon} alt="Marvel_icon"/>
-              </Column>
-              <Column span={12} justifyContent={JustifyContent.center} my={4}>
-                <Carousel showThumbs={false}>
-                  {ComicsData?.map((comic:ComicsData) => {
-                    return(
-                      <Column span={4} xs={12} md={6} lg={4} xl={4} key={comic.id} justifyContent={JustifyContent.center}>
-                        <ContentPreview>
-                          <img src={`${comic.thumbnail.path === ImageNotAvailable ? ImageDefault : comic.thumbnail.path }.${comic.thumbnail.extension}`} width="200px" height="100px"/>
-                          <p className="legend">{comic.title}</p>
-                        </ContentPreview>
-                      </Column>
-                    )
-                  })}
-                </Carousel>
-              </Column>
-            </Row>
-            <Row as={MainContent}>
-              {ComicsData?.map((comic:ComicsData) => {
-                return(
-                  <Column span={4} xs={12} md={6} lg={4} xl={4} key={comic.id} justifyContent={JustifyContent.center}>
-                    <ContentPreview>
-                      <img src={`${comic.thumbnail.path === ImageNotAvailable ? ImageDefault : comic.thumbnail.path }.${comic.thumbnail.extension}`} width="200px" height="100px"/>
-                      <p className="legend">{comic.title}</p>
-                    </ContentPreview>
-                  </Column>
-                )
-              })}
-            </Row>
+            <Jumbotron/>
+            <Container>
+              <Row>
+                {ComicsData?.map((comic: ComicsData) => {
+                  return (
+                    <Column
+                      span={2}
+                      xs={12}
+                      sm={6}
+                      md={6}
+                      lg={4}
+                      xl={2}
+                      key={comic.id}
+                      justifyContent={JustifyContent.center}
+                    >
+                      <Row as={ContentPreview}>
+                        <Column span={12} xs={6} md={4} lg={12} xl={12}>
+                          <img
+                            src={`${
+                              comic.thumbnail.path === ImageNotAvailable
+                                ? ImageDefault
+                                : comic.thumbnail.path
+                            }.${comic.thumbnail.extension}`}
+                            width="200px"
+                            height="100px"
+                          />
+                        </Column>
+                        <Column span={12} xs={6} md={4} lg={12} xl={12}>
+                          <p className="legend text-center">{comic.title}</p>
+                        </Column>
+                      </Row>
+                    </Column>
+                  );
+                })}
+              </Row>
+            </Container>
           </>
         )}
-      </Container>
+      </>
 
       <Footer>
         <p className="text-center">
@@ -79,7 +97,7 @@ const App = () => {
         </p>
       </Footer>
     </ThemeProvider>
-  )
-}
+  );
+};
 
 export default App;

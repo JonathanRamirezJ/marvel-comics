@@ -1,5 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import { theme } from "styled-tools";
 
 const fadeIn = keyframes`
   0% { 
@@ -11,7 +10,6 @@ const fadeIn = keyframes`
 `;
 
 export const LoaderStyled = styled.div`
-  background-color: ${theme("Primary_03")};
   display: flex;
   flex-direction: column;
   justify-content: center;
