@@ -9,12 +9,8 @@ export interface ComicsData {
   thumbnail: thumbnailData;
 }
 
-export interface results {
-  results: ComicsData[]
-}
-
 export interface Comicstate {
   loading: boolean;
   error: string | null;
-  data: results | null;
+  data: ComicsData[] | null;
 } 

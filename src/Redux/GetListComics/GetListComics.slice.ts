@@ -7,9 +7,7 @@ import { Comicstate } from "../../models/Comics";
 const initialState:Comicstate = {
   loading: false,
   error: null,
-  data: {
-    results: []
-  }
+  data: [],
 };
 
 export const GetListComicsSlice = createSlice({
@@ -23,8 +21,9 @@ export const GetListComicsSlice = createSlice({
         state.error = null;
       })
       .addCase(GetListComicsAction.fulfilled, (state, action) => {
+        const newData = state.data ? state.data.concat(action.payload.results) : [] ;
         state.loading = false;
-        state.data = action.payload
+        state.data = newData;
         state.error = null;
       })
       .addCase(GetListComicsAction.rejected, (state, action) => {

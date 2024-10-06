@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { theme } from "styled-tools";
+import { ifProp, theme } from "styled-tools";
 
 export const JumbotronContainer = styled.div`
   display: flex;
@@ -64,8 +64,8 @@ export const TextContent = styled.div`
   }
 `;
 
-export const Button = styled.button`
-  background-color: ${theme("Primary_01")};
+export const Button = styled.button<{disabledButton: boolean}>`
+  background-color: ${ifProp("disabledButton",theme("Primary_04"), theme("Primary_01"))};
   border-radius: 3px;
   font-family: "Maven Pro";
   font-size: 16px;
@@ -75,7 +75,7 @@ export const Button = styled.button`
   font-weight: 500;
 
   &:hover {
-    background-color: ${theme("Primary_03")};
+    background-color: ${ifProp("disabledButton",theme("Primary_04"), theme("Primary_03"))};
     opacity: 0.8;
   }
 `;

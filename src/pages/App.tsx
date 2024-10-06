@@ -24,22 +24,30 @@ import { Column, Container, Row } from "../components/Grid";
 
 // Own styles
 import { ContentPreview, Footer } from "./App.styled";
+import { Button } from "../components/Jumbotron/Jumbotron.styled";
 
 // Own assets
 import Jumbotron from "../components/Jumbotron";
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const ComicsSelector = useSelector(GetListComicsSelector);
   const { getListComicsAll } = useComics();
+  const ComicsSelector = useSelector(GetListComicsSelector);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFeching, setIsFeching] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(0);
 
   const ComicsData = useMemo(
-    () => ComicsSelector?.data?.results,
+    () => ComicsSelector?.data,
     [ComicsSelector]
   );
 
+  const LoadMoreComics = () => {
+    getListComicsAll(setIsFeching, page+1);
+    setPage(page+1);
+  };
+
   useEffect(() => {
-    getListComicsAll(setIsLoading);
+    getListComicsAll(setIsLoading, page);
   }, []);
 
   return (
@@ -52,7 +60,7 @@ const App = () => {
             <Jumbotron/>
             <Container>
               <Row>
-                {ComicsData?.map((comic: ComicsData) => {
+                {ComicsData?.map((comic: ComicsData, index) => {
                   return (
                     <Column
                       span={2}
@@ -61,7 +69,7 @@ const App = () => {
                       md={6}
                       lg={4}
                       xl={2}
-                      key={comic.id}
+                      key={comic.id + index}
                       justifyContent={JustifyContent.center}
                     >
                       <Row as={ContentPreview}>
@@ -83,6 +91,13 @@ const App = () => {
                     </Column>
                   );
                 })}
+              </Row>
+              <Row>
+                <Column span={12} justifyContent={JustifyContent.center} my={2}>
+                  <Button onClick={LoadMoreComics} disabledButton={isFeching} disabled={isFeching} >
+                    {isFeching ? "Loading..." : "Show more"}
+                  </Button>
+                </Column>
               </Row>
             </Container>
           </>

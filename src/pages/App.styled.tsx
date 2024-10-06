@@ -11,6 +11,19 @@ export const ContentPreview = styled.div`
     ${mediaQuery[Screen.mobile]} {
       margin: 0;
     }
+
+    &:hover {
+      scale: 1;
+      animation: hithere 1s;
+    }
+
+    @keyframes hithere {
+      30% { transform: scale(1.2); }
+      40%, 60% { transform: rotate(-20deg) scale(1.2); }
+      50% { transform: rotate(20deg) scale(1.2); }
+      70% { transform: rotate(0deg) scale(1.2); }
+      100% { transform: scale(1); }
+    }
   }
 `;
 

@@ -27,13 +27,3 @@ export const LoaderStyled = styled.div`
     }
   }
 `;
-
-export const SpanTitle = styled.div`
-  font-family: "chalkduster";
-  display: flex;
-  flex-direction: column;
-  font-size: 1.5rem;
-  justify-content: center;
-  animation: ${fadeIn} 8s;
-  margin: 12px 0;
-`;
