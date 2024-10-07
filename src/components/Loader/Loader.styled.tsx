@@ -15,7 +15,7 @@ export const LoaderStyled = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  animation: ${fadeIn} 8s;
+  animation: ${fadeIn} 0.8s;
   width: 100%;
 
   @keyframes fadeIn {

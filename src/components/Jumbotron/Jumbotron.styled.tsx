@@ -64,7 +64,7 @@ export const TextContent = styled.div`
   }
 `;
 
-export const Button = styled.button<{disabledButton: boolean}>`
+export const Button = styled.button<{disabledButton?: boolean}>`
   background-color: ${ifProp("disabledButton",theme("Primary_04"), theme("Primary_01"))};
   border-radius: 3px;
   font-family: "Maven Pro";

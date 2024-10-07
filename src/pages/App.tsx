@@ -139,7 +139,7 @@ const App = () => {
 
       <Footer>
         <p className="text-center">
-          <a href="http://marvel.com" target="_blank">
+          <a href="https://marvel.com" target="_blank">
             Data provided by Marvel. © 2024 Marvel
           </a>
         </p>

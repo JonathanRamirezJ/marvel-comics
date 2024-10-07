@@ -46,24 +46,28 @@ const Jumbotron = () => {
           <img
             src="https://cdn.marvel.com/content/2x/storm_magneto_mh.jpg"
             height="300px"
+            alt="Img01-Carousel"
           />
         </div>
         <div>
           <img
             src="https://cdn.marvel.com/content/2x/immortal-thor-desktop.jpg"
             height="300px"
+            alt="Img02-Carousel"
           />
         </div>
         <div>
           <img
             src="https://cdn.marvel.com/content/2x/genis-vell_mh.jpg"
             height="300px"
+            alt="Img03-Carousel"
           />
         </div>
         <div>
           <img
             src="https://cdn.marvel.com/content/2x/anti-venom_mh.jpg"
             height="300px"
+            alt="Img04-Carousel"
           />
         </div>
       </Carousel>
