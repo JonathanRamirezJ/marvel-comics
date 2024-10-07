@@ -3,9 +3,11 @@ import { combineReducers} from "redux";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import { GetListComicsSlice } from "../GetListComics/GetListComics.slice";
+import { GetComicIdSlice } from "../GetComicId/GetListComics.slice";
 
 const rootReducer = combineReducers({
   [GetListComicsSlice.name]: GetListComicsSlice.reducer,
+  [GetComicIdSlice.name]: GetComicIdSlice.reducer
 });
 
 const persistConfig = {

@@ -10,6 +10,7 @@ export const theme = {
   Primary_05: "#518cca",
   Primary_06: "#f78f3f",
   Primary_07: "#151515",
+  RGA_Black: "0,0,0",
   Black: "#000",
   White: "#fff",
 };

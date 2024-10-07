@@ -6,6 +6,7 @@ export const ContentPreview = styled.div`
   margin: 12px;
 
   img {
+    cursor: pointer;
     margin: 0 auto;
 
     ${mediaQuery[Screen.mobile]} {

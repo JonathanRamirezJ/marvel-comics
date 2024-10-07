@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 
 // Own redux
 import { GetListComicsSelector } from "../Redux/GetListComics/GetListComics.slice";
+import { GetComicIdSelector } from "../Redux/GetComicId/GetListComics.slice";
 
 // Own hooks
 import { useComics } from "../hooks/useComics";
@@ -21,29 +22,44 @@ import { ImageDefault, ImageNotAvailable } from "../constants/imageDefault";
 // Own components
 import Loader from "../components/Loader";
 import { Column, Container, Row } from "../components/Grid";
+import Jumbotron from "../components/Jumbotron";
+import Modal from "../components/Modal";
 
 // Own styles
 import { ContentPreview, Footer } from "./App.styled";
 import { Button } from "../components/Jumbotron/Jumbotron.styled";
 
-// Own assets
-import Jumbotron from "../components/Jumbotron";
-
 const App = () => {
-  const { getListComicsAll } = useComics();
+  const { getListComicsAll, getComicId } = useComics();
   const ComicsSelector = useSelector(GetListComicsSelector);
+  const ComicIDSelector = useSelector(GetComicIdSelector);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFeching, setIsFeching] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
 
-  const ComicsData = useMemo(
-    () => ComicsSelector?.data,
-    [ComicsSelector]
+  const ComicsData = useMemo(() => ComicsSelector?.data, [ComicsSelector]);
+  const ComicData = useMemo(
+    () => ComicIDSelector?.data || [],
+    [ComicIDSelector]
   );
 
   const LoadMoreComics = () => {
-    getListComicsAll(setIsFeching, page+1);
-    setPage(page+1);
+    getListComicsAll(setIsFeching, page + 1);
+    setPage(page + 1);
+  };
+
+  const handleShowInfo = (comicId: number) => {
+    getComicId(setIsFeching, comicId);
+    setOpenModal(true);
+  };
+
+  const FormatImage = (path:string, extension:string) => {
+    if(path === ImageNotAvailable) {
+      return `${ImageDefault}.${extension}`;
+    }
+
+    return `${path}.${extension}`;
   };
 
   useEffect(() => {
@@ -57,7 +73,7 @@ const App = () => {
           <Loader />
         ) : (
           <>
-            <Jumbotron/>
+            <Jumbotron />
             <Container>
               <Row>
                 {ComicsData?.map((comic: ComicsData, index) => {
@@ -73,13 +89,16 @@ const App = () => {
                       justifyContent={JustifyContent.center}
                     >
                       <Row as={ContentPreview}>
-                        <Column span={12} xs={6} md={4} lg={12} xl={12}>
+                        <Column
+                          span={12}
+                          xs={6}
+                          md={4}
+                          lg={12}
+                          xl={12}
+                          onClick={() => handleShowInfo(comic.id)}
+                        >
                           <img
-                            src={`${
-                              comic.thumbnail.path === ImageNotAvailable
-                                ? ImageDefault
-                                : comic.thumbnail.path
-                            }.${comic.thumbnail.extension}`}
+                            src={FormatImage(comic.thumbnail.path, comic.thumbnail.extension)}
                             width="200px"
                             height="100px"
                           />
@@ -94,7 +113,11 @@ const App = () => {
               </Row>
               <Row>
                 <Column span={12} justifyContent={JustifyContent.center} my={2}>
-                  <Button onClick={LoadMoreComics} disabledButton={isFeching} disabled={isFeching} >
+                  <Button
+                    onClick={LoadMoreComics}
+                    disabledButton={isFeching}
+                    disabled={isFeching}
+                  >
                     {isFeching ? "Loading..." : "Show more"}
                   </Button>
                 </Column>
@@ -103,6 +126,16 @@ const App = () => {
           </>
         )}
       </>
+
+      {openModal && !isFeching && (
+        <Modal
+          show={openModal}
+          title={ComicData[0]?.title}
+          description={ComicData[0]?.description}
+          path={FormatImage(ComicData[0]?.thumbnail.path, ComicData[0]?.thumbnail.extension)}
+          closeEvent={() => setOpenModal(false)}
+        />
+      )}
 
       <Footer>
         <p className="text-center">
