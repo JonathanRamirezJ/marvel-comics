@@ -17,7 +17,7 @@ import {
 } from "./Modal.styled";
 
 const Modal = (props: ModalProps) => {
-  const { show, title, description, path, closeEvent } = props;
+  const { show, title, description, path, errors, closeEvent } = props;
 
   const handelClose = () => {
     document.body.classList.remove("modal");
@@ -36,6 +36,11 @@ const Modal = (props: ModalProps) => {
     <ModalContainer>
       <ModalContent>
         <ModalCloseButon onClick={handelClose}>X</ModalCloseButon>
+        {errors ? (
+          <h2 className="text-center">
+            Sorry unexpected error has occurred
+          </h2>
+        ) : (
         <Container>
           <Row>
             <Column span={12}>
@@ -65,6 +70,7 @@ const Modal = (props: ModalProps) => {
             </Column>
           </Row>
         </Container>
+      )}
       </ModalContent>
     </ModalContainer>
   );

@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components";
 
 // Own redux
 import { GetListComicsSelector } from "../Redux/GetListComics/GetListComics.slice";
-import { GetComicIdSelector } from "../Redux/GetComicId/GetListComics.slice";
+import { GetComicIdSelector } from "../Redux/GetComicId/GetComicId.slice";
 
 // Own hooks
 import { useComics } from "../hooks/useComics";
@@ -41,6 +41,16 @@ const App = () => {
   const ComicsData = useMemo(() => ComicsSelector?.data, [ComicsSelector]);
   const ComicData = useMemo(
     () => ComicIDSelector?.data || [],
+    [ComicIDSelector]
+  );
+
+  const ComicListError = useMemo(
+    () => ComicsSelector?.error || null,
+    [ComicsSelector]
+  );
+
+  const ComicIdError = useMemo(
+    () => ComicIDSelector?.error || null,
     [ComicIDSelector]
   );
 
@@ -111,17 +121,23 @@ const App = () => {
                   );
                 })}
               </Row>
-              <Row>
-                <Column span={12} justifyContent={JustifyContent.center} my={2}>
-                  <Button
-                    onClick={LoadMoreComics}
-                    disabledButton={isFeching}
-                    disabled={isFeching}
-                  >
-                    {isFeching ? "Loading..." : "Show more"}
-                  </Button>
-                </Column>
-              </Row>
+              {(ComicListError !== null || ComicIdError !== null) ? (
+                <h2 className="text-center my-9">
+                  Sorry unexpected error has occurred
+                </h2>
+              ) : (
+                <Row>
+                  <Column span={12} justifyContent={JustifyContent.center} my={2}>
+                    <Button
+                      onClick={LoadMoreComics}
+                      disabledButton={isFeching}
+                      disabled={isFeching}
+                    >
+                      {isFeching ? "Loading..." : "Show more"}
+                    </Button>
+                  </Column>
+                </Row>
+              )}
             </Container>
           </>
         )}
@@ -132,6 +148,7 @@ const App = () => {
           show={openModal}
           title={ComicData[0]?.title}
           description={ComicData[0]?.description}
+          errors={ComicIdError !== null ? true: false}
           path={FormatImage(ComicData[0]?.thumbnail.path, ComicData[0]?.thumbnail.extension)}
           closeEvent={() => setOpenModal(false)}
         />

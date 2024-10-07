@@ -3,5 +3,6 @@ export interface ModalProps {
   title: string;
   description: string;
   path: string;
+  errors: boolean;
   closeEvent: () => void;
 }

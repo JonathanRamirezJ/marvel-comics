@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 // Own redux files
 import { AppDispatch } from "../Redux/Store";
 import { GetListComicsAction } from "../Redux/GetListComics/GetListComics.actions";
-import { GetComicIdAction } from "../Redux/GetComicId/GetListComics.actions";
+import { GetComicIdAction } from "../Redux/GetComicId/GetComicId.actions";
 
 // Own constants
 import {

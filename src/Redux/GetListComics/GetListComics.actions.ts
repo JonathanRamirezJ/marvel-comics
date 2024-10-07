@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // Own services
@@ -14,10 +13,7 @@ export const GetListComicsAction = createAsyncThunk(
       const response = await BaseConfigApi.get(`/comics?&apikey=${API_KEY}&offset=${offset}`);
       return response.data.data;
     } catch(error) {
-      if (error instanceof AxiosError)
-        return thunkAPI.rejectWithValue(error.response?.data.message);
-
-      return thunkAPI.rejectWithValue("error");
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );

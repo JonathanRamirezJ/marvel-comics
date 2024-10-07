@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GET_COMICS_ID } from "../../constants/GetComics";
-import { GetComicIdAction } from "./GetListComics.actions";
+import { GetComicIdAction } from "./GetComicId.actions";
 import { State } from "../Store";
 import { ComicIdtate } from "../../models/Comics";
 
